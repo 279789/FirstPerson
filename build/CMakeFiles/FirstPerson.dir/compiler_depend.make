@@ -201,6 +201,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/bits/pthreadtypes.h \
   /usr/include/bits/sched.h \
   /usr/include/bits/select.h \
+  /usr/include/bits/semaphore.h \
   /usr/include/bits/setjmp.h \
   /usr/include/bits/stdint-intn.h \
   /usr/include/bits/stdint-least.h \
@@ -253,6 +254,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/c++/15.2.1/algorithm \
   /usr/include/c++/15.2.1/any \
   /usr/include/c++/15.2.1/array \
+  /usr/include/c++/15.2.1/atomic \
   /usr/include/c++/15.2.1/backward/auto_ptr.h \
   /usr/include/c++/15.2.1/backward/binders.h \
   /usr/include/c++/15.2.1/bit \
@@ -263,6 +265,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/c++/15.2.1/bits/allocator.h \
   /usr/include/c++/15.2.1/bits/atomic_base.h \
   /usr/include/c++/15.2.1/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/15.2.1/bits/atomic_timed_wait.h \
   /usr/include/c++/15.2.1/bits/atomic_wait.h \
   /usr/include/c++/15.2.1/bits/basic_ios.h \
   /usr/include/c++/15.2.1/bits/basic_ios.tcc \
@@ -340,6 +343,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/c++/15.2.1/bits/ranges_util.h \
   /usr/include/c++/15.2.1/bits/refwrap.h \
   /usr/include/c++/15.2.1/bits/requires_hosted.h \
+  /usr/include/c++/15.2.1/bits/semaphore_base.h \
   /usr/include/c++/15.2.1/bits/shared_ptr.h \
   /usr/include/c++/15.2.1/bits/shared_ptr_atomic.h \
   /usr/include/c++/15.2.1/bits/shared_ptr_base.h \
@@ -349,6 +353,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/c++/15.2.1/bits/std_abs.h \
   /usr/include/c++/15.2.1/bits/std_function.h \
   /usr/include/c++/15.2.1/bits/std_mutex.h \
+  /usr/include/c++/15.2.1/bits/std_thread.h \
   /usr/include/c++/15.2.1/bits/stl_algo.h \
   /usr/include/c++/15.2.1/bits/stl_algobase.h \
   /usr/include/c++/15.2.1/bits/stl_bvector.h \
@@ -375,6 +380,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/c++/15.2.1/bits/streambuf_iterator.h \
   /usr/include/c++/15.2.1/bits/string_view.tcc \
   /usr/include/c++/15.2.1/bits/stringfwd.h \
+  /usr/include/c++/15.2.1/bits/this_thread_sleep.h \
   /usr/include/c++/15.2.1/bits/unicode-data.h \
   /usr/include/c++/15.2.1/bits/unicode.h \
   /usr/include/c++/15.2.1/bits/uniform_int_dist.h \
@@ -446,14 +452,17 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/c++/15.2.1/pstl/pstl_config.h \
   /usr/include/c++/15.2.1/ranges \
   /usr/include/c++/15.2.1/ratio \
+  /usr/include/c++/15.2.1/semaphore \
   /usr/include/c++/15.2.1/set \
   /usr/include/c++/15.2.1/span \
   /usr/include/c++/15.2.1/sstream \
   /usr/include/c++/15.2.1/stdexcept \
+  /usr/include/c++/15.2.1/stop_token \
   /usr/include/c++/15.2.1/streambuf \
   /usr/include/c++/15.2.1/string \
   /usr/include/c++/15.2.1/string_view \
   /usr/include/c++/15.2.1/system_error \
+  /usr/include/c++/15.2.1/thread \
   /usr/include/c++/15.2.1/tr1/bessel_function.tcc \
   /usr/include/c++/15.2.1/tr1/beta_function.tcc \
   /usr/include/c++/15.2.1/tr1/ell_integral.tcc \
@@ -510,6 +519,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/math.h \
   /usr/include/pthread.h \
   /usr/include/sched.h \
+  /usr/include/semaphore.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
   /usr/include/stdio.h \
@@ -520,6 +530,7 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: /home/phil/Programieren/Objektorienti
   /usr/include/sys/select.h \
   /usr/include/sys/single_threaded.h \
   /usr/include/sys/syscall.h \
+  /usr/include/sys/time.h \
   /usr/include/sys/types.h \
   /usr/include/syscall.h \
   /usr/include/time.h \
@@ -666,15 +677,25 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o:
 
 /usr/lib/ld-linux-x86-64.so.2:
 
-/usr/include/c++/15.2.1/debug/debug.h:
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
+
+/usr/lib/librt.a:
+
+/usr/lib/libgcc_s.so.1:
+
+/usr/lib/libgcc_s.so:
+
+/usr/lib/libdl.a:
+
+/usr/lib/Scrt1.o:
 
 /usr/lib/libGLdispatch.so.0:
 
 /usr/include/c++/15.2.1/backward/binders.h:
 
-/usr/include/c++/15.2.1/array:
+/usr/include/c++/15.2.1/atomic:
 
-/usr/lib/librt.a:
+/usr/include/c++/15.2.1/array:
 
 /usr/include/c++/15.2.1/algorithm:
 
@@ -694,8 +715,6 @@ _deps/sfml-src/include/SFML/System/Time.hpp:
 
 /usr/include/bits/uintn-identity.h:
 
-/usr/lib/libdl.a:
-
 /usr/include/bits/typesizes.h:
 
 /usr/include/c++/15.2.1/bits/atomic_lockfree_defines.h:
@@ -708,9 +727,9 @@ _deps/sfml-src/include/SFML/System/Time.hpp:
 
 /usr/include/bits/environments.h:
 
-/usr/include/c++/15.2.1/filesystem:
+/usr/include/c++/15.2.1/bits/std_thread.h:
 
-/usr/include/bits/types/mbstate_t.h:
+/usr/include/c++/15.2.1/filesystem:
 
 /usr/include/bits/types/cookie_io_functions_t.h:
 
@@ -755,6 +774,10 @@ _deps/sfml-src/include/SFML/Window/Context.hpp:
 /usr/include/c++/15.2.1/bits/fs_dir.h:
 
 /usr/include/asm/errno.h:
+
+/usr/include/bits/types/mbstate_t.h:
+
+/usr/include/bits/semaphore.h:
 
 /usr/include/bits/pthreadtypes.h:
 
@@ -848,6 +871,8 @@ _deps/sfml-src/include/SFML/Window/Keyboard.hpp:
 
 /usr/include/c++/15.2.1/bits/atomic_wait.h:
 
+/usr/include/semaphore.h:
+
 /usr/include/bits/types/struct_tm.h:
 
 /usr/lib/libXfixes.so:
@@ -894,6 +919,8 @@ _deps/json-src/include/nlohmann/detail/conversions/to_json.hpp:
 
 /usr/include/assert.h:
 
+/usr/include/c++/15.2.1/bits/semaphore_base.h:
+
 _deps/sfml-src/include/SFML/Graphics/Color.inl:
 
 _deps/json-src/include/nlohmann/detail/conversions/to_chars.hpp:
@@ -913,10 +940,6 @@ _deps/json-src/include/nlohmann/detail/conversions/from_json.hpp:
 /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc:
 
 /usr/include/bits/mathcalls.h:
-
-/usr/include/c++/15.2.1/bits/align.h:
-
-_deps/cli11-src/include/CLI/Option.hpp:
 
 _deps/json-src/include/nlohmann/thirdparty/hedley/hedley.hpp:
 
@@ -1118,15 +1141,25 @@ _deps/cli11-src/include/CLI/impl/ExtraValidators_inl.hpp:
 
 _deps/json-src/include/nlohmann/adl_serializer.hpp:
 
+/usr/lib/crti.o:
+
+/usr/include/c++/15.2.1/bits/valarray_after.h:
+
 _deps/sfml-src/include/SFML/System/String.hpp:
 
 /usr/lib32/libXau.so.6:
 
 _deps/json-src/include/nlohmann/detail/meta/std_fs.hpp:
 
+/usr/lib/libstdc++.so:
+
+_deps/json-src/include/nlohmann/detail/meta/void_t.hpp:
+
 _deps/sfml-src/include/SFML/System/MemoryInputStream.hpp:
 
 /usr/include/bits/types/locale_t.h:
+
+/usr/include/c++/15.2.1/stop_token:
 
 _deps/json-src/include/nlohmann/detail/output/serializer.hpp:
 
@@ -1228,6 +1261,8 @@ _deps/json-src/include/nlohmann/detail/hash.hpp:
 
 _deps/cli11-src/include/CLI/impl/Validators_inl.hpp:
 
+/usr/include/c++/15.2.1/bits/this_thread_sleep.h:
+
 /usr/include/c++/15.2.1/ext/type_traits.h:
 
 _deps/sfml-src/include/SFML/Graphics/PrimitiveType.hpp:
@@ -1249,6 +1284,10 @@ _deps/sfml-src/include/SFML/Window/Event.inl:
 _deps/json-src/include/nlohmann/detail/macro_scope.hpp:
 
 _deps/sfml-src/include/SFML/Graphics/Rect.inl:
+
+/usr/lib/libm.so:
+
+_deps/sfml-src/include/SFML/Graphics/RectangleShape.hpp:
 
 /usr/include/syscall.h:
 
@@ -1324,8 +1363,6 @@ _deps/sfml-src/include/SFML/Graphics/View.hpp:
 
 /usr/include/bits/long-double.h:
 
-_deps/json-src/include/nlohmann/detail/meta/cpp_future.hpp:
-
 /usr/include/c++/15.2.1/bits/postypes.h:
 
 _deps/sfml-src/include/SFML/System/Utf.hpp:
@@ -1342,11 +1379,19 @@ _deps/sfml-src/include/SFML/System/Vector2.hpp:
 
 /usr/include/c++/15.2.1/bits/nested_exception.h:
 
+_deps/cli11-src/include/CLI/Option.hpp:
+
+/usr/include/c++/15.2.1/bits/align.h:
+
+/usr/include/c++/15.2.1/debug/debug.h:
+
 _deps/sfml-src/include/SFML/Graphics/Glyph.hpp:
 
 /usr/include/c++/15.2.1/bits/alloc_traits.h:
 
 /usr/include/c++/15.2.1/bits/max_size_type.h:
+
+/usr/include/c++/15.2.1/bits/atomic_timed_wait.h:
 
 /usr/include/c++/15.2.1/bits/basic_ios.tcc:
 
@@ -1409,10 +1454,6 @@ _deps/sfml-src/include/SFML/Graphics/ConvexShape.hpp:
 /usr/include/c++/15.2.1/bits/gslice_array.h:
 
 /usr/include/locale.h:
-
-_deps/json-src/include/nlohmann/detail/meta/void_t.hpp:
-
-/usr/lib/libstdc++.so:
 
 /usr/include/c++/15.2.1/bits/hash_bytes.h:
 
@@ -1600,8 +1641,6 @@ _deps/sfml-src/include/SFML/Graphics/Glsl.hpp:
 
 /usr/include/c++/15.2.1/cstddef:
 
-/usr/lib/libgcc_s.so:
-
 /usr/include/c++/15.2.1/cstdint:
 
 /usr/include/c++/15.2.1/cstdio:
@@ -1698,6 +1737,10 @@ _deps/sfml-src/include/SFML/Graphics/Export.hpp:
 
 /usr/include/c++/15.2.1/string_view:
 
+_deps/json-src/include/nlohmann/detail/meta/cpp_future.hpp:
+
+/usr/include/c++/15.2.1/thread:
+
 /usr/include/c++/15.2.1/tr1/bessel_function.tcc:
 
 /usr/include/c++/15.2.1/tr1/exp_integral.tcc:
@@ -1731,6 +1774,8 @@ _deps/sfml-src/include/SFML/Graphics/Export.hpp:
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr-default.h:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr.h:
+
+/usr/include/c++/15.2.1/semaphore:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h:
 
@@ -1766,22 +1811,10 @@ _deps/sfml-src/include/SFML/Graphics/RenderTarget.hpp:
 
 /usr/include/sys/cdefs.h:
 
+/usr/include/sys/time.h:
+
 /usr/include/sys/types.h:
 
 /usr/include/unistd.h:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/syslimits.h:
-
-/usr/lib/Scrt1.o:
-
-/usr/include/c++/15.2.1/bits/valarray_after.h:
-
-/usr/lib/crti.o:
-
-/usr/lib/libgcc_s.so.1:
-
-_deps/sfml-src/include/SFML/Graphics/RectangleShape.hpp:
-
-/usr/lib/libm.so:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:

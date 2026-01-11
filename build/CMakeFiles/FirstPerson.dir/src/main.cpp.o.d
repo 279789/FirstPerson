@@ -435,4 +435,11 @@ CMakeFiles/FirstPerson.dir/src/main.cpp.o: \
  /home/phil/Programieren/Objektorientierung/repos/FirsPerson/build/_deps/sfml-src/include/SFML/System/FileInputStream.hpp \
  /home/phil/Programieren/Objektorientierung/repos/FirsPerson/build/_deps/sfml-src/include/SFML/System/InputStream.hpp \
  /home/phil/Programieren/Objektorientierung/repos/FirsPerson/build/_deps/sfml-src/include/SFML/System/MemoryInputStream.hpp \
- /home/phil/Programieren/Objektorientierung/repos/FirsPerson/build/_deps/sfml-src/include/SFML/System/Sleep.hpp
+ /home/phil/Programieren/Objektorientierung/repos/FirsPerson/build/_deps/sfml-src/include/SFML/System/Sleep.hpp \
+ /usr/include/c++/15.2.1/thread /usr/include/c++/15.2.1/stop_token \
+ /usr/include/c++/15.2.1/atomic /usr/include/c++/15.2.1/bits/std_thread.h \
+ /usr/include/c++/15.2.1/semaphore \
+ /usr/include/c++/15.2.1/bits/semaphore_base.h \
+ /usr/include/c++/15.2.1/bits/atomic_timed_wait.h \
+ /usr/include/c++/15.2.1/bits/this_thread_sleep.h /usr/include/sys/time.h \
+ /usr/include/semaphore.h /usr/include/bits/semaphore.h

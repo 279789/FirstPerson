@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest/src/main.cpp" "CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o" "gcc" "CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o.d"
+  "/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/main.cpp" "CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o" "gcc" "CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o.d"
   "" "CopperSpiceTest" "gcc" "CMakeFiles/CopperSpiceTest.dir/link.d"
   )
 

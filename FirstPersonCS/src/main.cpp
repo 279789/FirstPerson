@@ -1,6 +1,7 @@
 #include<QtCore>
 #include<QtGui>
 #include<vector>
+#include<cmath>
 class Player {
 
 	private:
@@ -8,7 +9,10 @@ class Player {
 		float PlayerPosX;
 		float PlayerPosY;
 		float PlayerSize;
-
+//		float PlayerCenterPosX;
+//		float PlayerCenterPosY;
+		float DirectionAngle;
+		float DirectionLength;
 	public:
 	
 	Player() {
@@ -16,6 +20,12 @@ class Player {
 		PlayerPosX = 5;
 		PlayerPosY = 5;
 		PlayerSize = 10;
+		
+		DirectionAngle = M_PI;   // Important for Mouse Integration
+		DirectionLength = 25;
+//		PlayerCenterPosX = PlayerPosX * window.getTileSizeX() + PlayerSize/2;
+//		PlayerCenterPosY = PlayerPosY * window.getTileSizeY() + PlayerSize/2;
+ 
 	}
 
 	void changePlayerPosX(float newPlayerPosX){
@@ -35,6 +45,22 @@ class Player {
 	       return PlayerPosY;
 	}
 
+	float getDirectionAngle(){
+	       return DirectionAngle;
+	}
+
+	float getDirectionLength(){
+	       return DirectionLength;
+	}
+
+/*
+	float getPlayerCenterPosX(){
+	       return PlayerCenterPosX;
+	}
+
+	float getPlayerCenterPosY(){
+	       return PlayerCenterPosY;
+	}		*/
 	float getPlayerSize(){
 	       return PlayerSize;
 	}
@@ -77,12 +103,31 @@ class MapWidget : public QWidget {
 				1, 0, 0, 0, 0, 0, 1, 1, 0, 1,
 				1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
 				1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-			        };	
+			        };
+
+
+		wPressed = false;
+		aPressed = false;
+		sPressed = false;
+		dPressed = false;
+
 		QTimer *timer = new QTimer(this);			//declareing a timer
 		timer->start(16);					//16ms for 60Hz
 		connect(timer, &QTimer::timeout, this, &MapWidget::SuperLoop); 	//when timer run down, call SuperLoop
 	
 		}	
+
+
+	int getTileSizeX(){
+	       return TileSizeX;
+	}
+
+	int getTileSizeY(){
+	       return TileSizeY;
+	}
+
+
+
 		void SuperLoop() {
 		float Speed = 0.05f;
 		float NextPlayerX;
@@ -147,7 +192,7 @@ class MapWidget : public QWidget {
 		
 	
 		
-	ssdsda
+	
 	protected:
 		void paintEvent(QPaintEvent *event) override {
 			QPainter painter(this);
@@ -176,7 +221,30 @@ class MapWidget : public QWidget {
 			//drawing the Player 
 			painter.setBrush(Qt::yellow);
 			painter.drawRect
-			(player.getPlayerPosX() * TileSizeX, player.getPlayerPosY() * TileSizeY ,player.getPlayerSize() , player.getPlayerSize());
+			(player.getPlayerPosX() * TileSizeX, player.getPlayerPosY() * TileSizeY, 
+			 player.getPlayerSize() , player.getPlayerSize());
+
+		
+		
+		float PlayerCenterPosX = player.getPlayerPosX() * TileSizeX + player.getPlayerSize()/2;
+		float PlayerCenterPosY = player.getPlayerPosY() * TileSizeY + player.getPlayerSize()/2;
+		
+		//Attention! The PlayerCernterPos needs to be added to the Direction Pointer !!! 
+		//Other wise the Direction Pointer Points from 
+
+		float DirectionEndY = player.getDirectionLength() *  std::sin(player.getDirectionAngle()) + PlayerCenterPosX ;
+		float DirectionEndX = player.getDirectionLength() *  std::cos(player.getDirectionAngle()) + PlayerCenterPosY ; 
+			
+			//std::sqrt(player.getDirectionLength() * player.getDirectionLength()
+			//	- DirectionEndY * DirectionEndY);
+
+
+
+		//drawing Direction Vektor
+			painter.drawLine(PlayerCenterPosX,
+			PlayerCenterPosY,
+			DirectionEndY,
+		       	DirectionEndX);
 	}
 
 	void keyReleaseEvent(QKeyEvent *event) override {

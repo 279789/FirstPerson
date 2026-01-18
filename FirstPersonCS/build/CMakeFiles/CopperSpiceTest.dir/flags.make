@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest/build -I/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest -I/home/phil/cpplibs/cs2.0_libs/include/QtNetwork -isystem /home/phil/cpplibs/cs2.0_libs/include/QtGui -isystem /home/phil/cpplibs/cs2.0_libs/include/QtCore -isystem /home/phil/cpplibs/cs2.0_libs/include
+CXX_INCLUDES = -I/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build -I/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS -I/home/phil/cpplibs/cs2.0_libs/include/QtNetwork -isystem /home/phil/cpplibs/cs2.0_libs/include/QtGui -isystem /home/phil/cpplibs/cs2.0_libs/include/QtCore -isystem /home/phil/cpplibs/cs2.0_libs/include
 
 CXX_FLAGS = -std=gnu++20
 

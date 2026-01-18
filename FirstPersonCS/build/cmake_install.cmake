@@ -1,4 +1,4 @@
-# Install script for directory: /home/phil/Programieren/Objektorientierung/repos/CopperSpicetest
+# Install script for directory: /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -49,7 +49,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
          FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./CopperSpiceTest"
          RPATH "\$ORIGIN")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE EXECUTABLE FILES "/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest/build/CopperSpiceTest")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/." TYPE EXECUTABLE FILES "/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build/CopperSpiceTest")
   if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./CopperSpiceTest" AND
      NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/./CopperSpiceTest")
     file(RPATH_CHANGE
@@ -63,7 +63,7 @@ if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest/build/CMakeFiles/CopperSpiceTest.dir/install-cxx-module-bmi-noconfig.cmake" OPTIONAL)
+  include("/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build/CMakeFiles/CopperSpiceTest.dir/install-cxx-module-bmi-noconfig.cmake" OPTIONAL)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
@@ -85,7 +85,7 @@ endif()
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
 if(CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest/build/install_local_manifest.txt"
+  file(WRITE "/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build/install_local_manifest.txt"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()
 if(CMAKE_INSTALL_COMPONENT)
@@ -101,6 +101,6 @@ else()
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  file(WRITE "/home/phil/Programieren/Objektorientierung/repos/CopperSpicetest/build/${CMAKE_INSTALL_MANIFEST}"
+  file(WRITE "/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
 endif()

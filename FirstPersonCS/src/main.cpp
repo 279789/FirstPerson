@@ -14,9 +14,12 @@ class Player {
 	public:
 	
 	Player() {
-		
-		PlayerPosX = 5;
+	
+	//Position relative to Tiles	
+		PlayerPosX = 6;
 		PlayerPosY = 5;
+	
+	
 		PlayerSize = 10;
 		
 		DirectionAngle = 0;   // Important for Mouse Integration
@@ -85,17 +88,6 @@ if(Slider == 'Y') {
 			PlayerPosY = PlayerPosY + Distance * std::cos(DirectionAngle + M_PI * 3 / 2 );
 		}
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -422,6 +414,106 @@ class MapWidget : public QWidget {
 			PlayerCenterPosY,
 			DirectionEndX,
 		       	DirectionEndY);
+
+		float rayStartX = player.getPlayerPosX() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
+		float rayStartY = player.getPlayerPosY() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
+		float rayDirectionX = std::sin(player.getDirectionAngle());
+		float rayDirectionY = std::cos(player.getDirectionAngle());
+
+		//In which Tile the Plaser is.
+		int TileX = static_cast<int>(rayStartX);
+		int TileY = static_cast<int>(rayStartY);
+
+		// Calculation of the x distance for movement of 1 in y direction. (Betrag) weil distance is not negative if angel is.
+		float edgeDistanceX = std::abs(1 / rayDirectionX);
+		float edgeDistanceY = std::abs(1 / rayDirectionY);
+
+		bool VerticalSide = false;
+		bool HorizontalSide = false;
+
+		float sideDistanceX;
+		float sideDistanceY;
+
+		int walkX;
+		int walkY;
+		float Raylength = 0;
+		int wall = 0;
+
+		//Go Left if Direction of x is Negative
+		if(rayDirectionX < 0) {
+		walkX = -1;
+		//edge case for the beginning of the first step when x isnt 1
+		sideDistanceX = (rayStartX - TileX) * edgeDistanceX;
+		}
+
+		else {
+		walkX = 1;
+		//Calculating XDistance to first edge hit. Left case.
+		sideDistanceX = (TileX + 1 - rayStartX) * edgeDistanceX;
+		
+		}
+		
+		if (rayDirectionY < 0) {
+			walkY = -1;
+			sideDistanceY = (rayStartY - TileY) * edgeDistanceY;
+		}
+		else {
+			walkY = 1;
+			sideDistanceY =  (TileY +1 - rayStartY) *edgeDistanceY;
+		}
+
+		bool hit = false;
+		while(!hit) {
+			
+			if(sideDistanceX < sideDistanceY) {
+				sideDistanceX += edgeDistanceX;
+
+				TileX += walkX;
+			
+				VerticalSide = true;
+				HorizontalSide = false;
+			}
+			else{
+				sideDistanceY += edgeDistanceY;
+				TileY += walkY;
+
+				HorizontalSide = true;
+				VerticalSide = false;
+			}
+
+			if(worldMap[TileY * mapWidth + TileX]) {
+				hit = true;
+			}
+		}
+		
+				if(VerticalSide) {
+					
+					sideDistanceX -= edgeDistanceX;
+					Raylength = sideDistanceX;
+				}
+
+		
+				if(HorizontalSide) {
+
+					sideDistanceY -= edgeDistanceY;
+					Raylength= sideDistanceY;
+				}
+		hit = false;
+//Does change the sideDistanceX (length of actual Ray) into only X with the Hyp/X ratio rayDirection.
+
+		float rayEndX = rayStartX  + rayDirectionX * Raylength; 
+		float rayEndY = rayStartY  + rayDirectionY * Raylength; 
+		
+
+			painter.drawLine(rayStartX *TileSizeX,
+			rayStartY*TileSizeY,
+			rayEndX*TileSizeX,
+		       	rayEndY*TileSizeY );
+
+
+
+
+
 	}
 
 	void keyPressEvent(QKeyEvent *event) override {

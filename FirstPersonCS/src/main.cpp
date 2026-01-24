@@ -2,6 +2,18 @@
 #include<QtGui>
 #include<vector>
 #include<cmath>
+
+struct dda {
+	float RayStartX = 0;
+	float RayStartY = 0;
+	float RayEndX = 0;
+	float RayEndY = 0 ;
+	float Raylength = 0;
+	bool HorizontalHit = false;
+	bool VerticalHit = false;
+};
+
+
 class Player {
 
 	private:
@@ -414,102 +426,16 @@ class MapWidget : public QWidget {
 			PlayerCenterPosY,
 			DirectionEndX,
 		       	DirectionEndY);
-
-		float rayStartX = player.getPlayerPosX() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
-		float rayStartY = player.getPlayerPosY() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
-		float rayDirectionX = std::sin(player.getDirectionAngle());
-		float rayDirectionY = std::cos(player.getDirectionAngle());
-
-		//In which Tile the Plaser is.
-		int TileX = static_cast<int>(rayStartX);
-		int TileY = static_cast<int>(rayStartY);
-
-		// Calculation of the x distance for movement of 1 in y direction. (Betrag) weil distance is not negative if angel is.
-		float edgeDistanceX = std::abs(1 / rayDirectionX);
-		float edgeDistanceY = std::abs(1 / rayDirectionY);
-
-		bool VerticalSide = false;
-		bool HorizontalSide = false;
-
-		float sideDistanceX;
-		float sideDistanceY;
-
-		int walkX;
-		int walkY;
-		float Raylength = 0;
-		int wall = 0;
-
-		//Go Left if Direction of x is Negative
-		if(rayDirectionX < 0) {
-		walkX = -1;
-		//edge case for the beginning of the first step when x isnt 1
-		sideDistanceX = (rayStartX - TileX) * edgeDistanceX;
-		}
-
-		else {
-		walkX = 1;
-		//Calculating XDistance to first edge hit. Left case.
-		sideDistanceX = (TileX + 1 - rayStartX) * edgeDistanceX;
 		
-		}
-		
-		if (rayDirectionY < 0) {
-			walkY = -1;
-			sideDistanceY = (rayStartY - TileY) * edgeDistanceY;
-		}
-		else {
-			walkY = 1;
-			sideDistanceY =  (TileY +1 - rayStartY) *edgeDistanceY;
-		}
-
-		bool hit = false;
-		while(!hit) {
+		// Does calculate several data sets of the Wallcolision for later drawing the wall
+		for(float RayAngel = -60; RayAngel <= 60; RayAngel= RayAngel + 0.1) {
+		dda Ray = calculateWallHit(RayAngel);
 			
-			if(sideDistanceX < sideDistanceY) {
-				sideDistanceX += edgeDistanceX;
-
-				TileX += walkX;
-			
-				VerticalSide = true;
-				HorizontalSide = false;
-			}
-			else{
-				sideDistanceY += edgeDistanceY;
-				TileY += walkY;
-
-				HorizontalSide = true;
-				VerticalSide = false;
-			}
-
-			if(worldMap[TileY * mapWidth + TileX]) {
-				hit = true;
-			}
+			painter.drawLine(Ray.RayStartX *TileSizeX,
+			Ray.RayStartY*TileSizeY,
+			Ray.RayEndX*TileSizeX,
+		       	Ray.RayEndY*TileSizeY );
 		}
-		
-				if(VerticalSide) {
-					
-					sideDistanceX -= edgeDistanceX;
-					Raylength = sideDistanceX;
-				}
-
-		
-				if(HorizontalSide) {
-
-					sideDistanceY -= edgeDistanceY;
-					Raylength= sideDistanceY;
-				}
-		hit = false;
-//Does change the sideDistanceX (length of actual Ray) into only X with the Hyp/X ratio rayDirection.
-
-		float rayEndX = rayStartX  + rayDirectionX * Raylength; 
-		float rayEndY = rayStartY  + rayDirectionY * Raylength; 
-		
-
-			painter.drawLine(rayStartX *TileSizeX,
-			rayStartY*TileSizeY,
-			rayEndX*TileSizeX,
-		       	rayEndY*TileSizeY );
-
 
 
 
@@ -539,8 +465,111 @@ class MapWidget : public QWidget {
 	
 	}
 	
+	dda calculateWallHit(float RayAngel) {
+		
+		dda Ray; 
+		
+		RayAngel =  (RayAngel *2 *M_PI / 360);
+
+		//Middle of the Player
+		Ray.RayStartX = player.getPlayerPosX() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
+		Ray.RayStartY = player.getPlayerPosY() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
+		
+		//Direction Vector of the Player (Verhältnis)
+		float rayDirectionX = std::sin(player.getDirectionAngle()+RayAngel);
+		float rayDirectionY = std::cos(player.getDirectionAngle()+RayAngel);
+
+		//In which Tile the Player is.
+		int TileX = static_cast<int>(Ray.RayStartX);
+		int TileY = static_cast<int>(Ray.RayStartY);
+
+		// Calculation of the x distance for movement of 1 in y direction. (Betrag) cause distance is not negative if angel is.
+		float edgeDistanceX = std::abs(1 / rayDirectionX);
+		float edgeDistanceY = std::abs(1 / rayDirectionY);
+
+		//Actual length of the Ray (but not final length
+		float sideDistanceX;
+		float sideDistanceY;
+	
+		//indicator if the ray should move further
+		int walkX;
+		int walkY;
+		
+		int wall = 0;
+
+		//Go Left if Direction of x is Negative
+		if(rayDirectionX < 0) {
+		walkX = -1;
+		//Calculate Length for 1 Tile in -X direction
+		sideDistanceX = (Ray.RayStartX - TileX) * edgeDistanceX;
+		}
+
+		else {
+		walkX = 1;
+		sideDistanceX = (TileX + 1 - Ray.RayStartX) * edgeDistanceX;
+		
+		}
+		
+		if (rayDirectionY < 0) {
+			walkY = -1;
+			sideDistanceY = (Ray.RayStartY - TileY) * edgeDistanceY;
+		}
+		else {
+			walkY = 1;
+			sideDistanceY =  (TileY +1 - Ray.RayStartY) *edgeDistanceY;
+		}
+
+		bool hit = false;
+		while(!hit) {
+			
+			if(sideDistanceX < sideDistanceY) {
+				sideDistanceX += edgeDistanceX;
+
+				TileX += walkX;
+			
+				Ray.VerticalHit = true;
+				Ray.HorizontalHit = false;
+			}
+			else{
+				sideDistanceY += edgeDistanceY;
+				TileY += walkY;
+
+				Ray.HorizontalHit = true;
+				Ray.VerticalHit = false;
+			}
+
+			if(worldMap[TileY * mapWidth + TileX]) {
+				hit = true;
+			}
+		}
+		
+				if(Ray.VerticalHit) {
+					
+					sideDistanceX -= edgeDistanceX;
+					Ray.Raylength = sideDistanceX;
+				}
+
+		
+				if(Ray.HorizontalHit) {
+
+					sideDistanceY -= edgeDistanceY;
+					Ray.Raylength= sideDistanceY;
+				}
+		hit = false;
+//Does change the sideDistanceX (length of actual Ray) into only X with the Hyp/X ratio rayDirection.
+
+		Ray.RayEndX = Ray.RayStartX  + rayDirectionX * Ray.Raylength; 
+		Ray.RayEndY = Ray.RayStartY  + rayDirectionY * Ray.Raylength; 
+return Ray;	
+	
+	
+	
+	
+	
+	}
 
 };
+
 
 
 int main(int argc, char *argv[]) {

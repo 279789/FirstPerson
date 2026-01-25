@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/CopperSpiceTest.dir/link.d"
-  "CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o"
-  "CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o.d"
+  "CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o"
+  "CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o.d"
   "CopperSpiceTest"
   "CopperSpiceTest.pdb"
 )

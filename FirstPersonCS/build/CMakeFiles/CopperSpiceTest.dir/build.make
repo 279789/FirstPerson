@@ -72,28 +72,28 @@ include CMakeFiles/CopperSpiceTest.dir/flags.make
 CMakeFiles/CopperSpiceTest.dir/codegen:
 .PHONY : CMakeFiles/CopperSpiceTest.dir/codegen
 
-CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o: CMakeFiles/CopperSpiceTest.dir/flags.make
-CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o: /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/main.cpp
-CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o: CMakeFiles/CopperSpiceTest.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o -MF CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o.d -o CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o -c /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/main.cpp
+CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o: CMakeFiles/CopperSpiceTest.dir/flags.make
+CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o: /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/NewMain.cpp
+CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o: CMakeFiles/CopperSpiceTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o -MF CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o.d -o CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o -c /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/NewMain.cpp
 
-CMakeFiles/CopperSpiceTest.dir/src/main.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CopperSpiceTest.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/main.cpp > CMakeFiles/CopperSpiceTest.dir/src/main.cpp.i
+CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/NewMain.cpp > CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.i
 
-CMakeFiles/CopperSpiceTest.dir/src/main.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CopperSpiceTest.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/main.cpp -o CMakeFiles/CopperSpiceTest.dir/src/main.cpp.s
+CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/NewMain.cpp -o CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.s
 
 # Object files for target CopperSpiceTest
 CopperSpiceTest_OBJECTS = \
-"CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o"
+"CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o"
 
 # External object files for target CopperSpiceTest
 CopperSpiceTest_EXTERNAL_OBJECTS =
 
-CopperSpiceTest: CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o
+CopperSpiceTest: CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o
 CopperSpiceTest: CMakeFiles/CopperSpiceTest.dir/build.make
 CopperSpiceTest: CMakeFiles/CopperSpiceTest.dir/compiler_depend.ts
 CopperSpiceTest: /home/phil/cpplibs/cs2.0_libs/lib/libCsGui2.0.so

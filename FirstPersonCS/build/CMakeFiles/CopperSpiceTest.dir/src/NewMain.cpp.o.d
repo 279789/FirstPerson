@@ -1,5 +1,5 @@
-CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o: \
- /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/main.cpp \
+CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o: \
+ /home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/src/NewMain.cpp \
  /usr/include/stdc-predef.h \
  /home/phil/cpplibs/cs2.0_libs/include/QtCore/QtCore \
  /home/phil/cpplibs/cs2.0_libs/include/QtCore/qtcore.h \

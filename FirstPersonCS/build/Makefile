@@ -174,29 +174,29 @@ CopperSpiceTest/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/build
 .PHONY : CopperSpiceTest/fast
 
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
+src/NewMain.o: src/NewMain.cpp.o
+.PHONY : src/NewMain.o
 
 # target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
+src/NewMain.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.o
+.PHONY : src/NewMain.cpp.o
 
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
+src/NewMain.i: src/NewMain.cpp.i
+.PHONY : src/NewMain.i
 
 # target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
+src/NewMain.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.i
+.PHONY : src/NewMain.cpp.i
 
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
+src/NewMain.s: src/NewMain.cpp.s
+.PHONY : src/NewMain.s
 
 # target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+src/NewMain.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CopperSpiceTest.dir/build.make CMakeFiles/CopperSpiceTest.dir/src/NewMain.cpp.s
+.PHONY : src/NewMain.cpp.s
 
 # Help Target
 help:
@@ -211,9 +211,9 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... CopperSpiceTest"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... src/NewMain.o"
+	@echo "... src/NewMain.i"
+	@echo "... src/NewMain.s"
 .PHONY : help
 
 

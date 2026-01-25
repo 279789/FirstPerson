@@ -37,7 +37,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
  
 list(APPEND PROJECT_SOURCES
-  ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/NewMain.cpp
 )
 # Füge das VOR add_executable ein
 include_directories(

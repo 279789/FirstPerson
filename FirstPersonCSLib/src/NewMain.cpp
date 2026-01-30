@@ -1,0 +1,703 @@
+#include<QtCore>
+#include<QtGui>
+#include<vector>
+#include<cmath>
+
+struct dda {
+    float RayStartX = 0;
+    float RayStartY = 0;
+    float RayAngel = 0;
+    float RayEndX = 0;
+    float RayEndY = 0 ;
+    float Raylength = 0;
+    float Raylength3D = 0;
+    bool HorizontalHit = false;
+    bool VerticalHit = false;
+};
+
+
+class Player {
+
+private:
+
+    float PlayerPosX;
+    float PlayerPosY;
+    float PlayerSize;
+    float DirectionAngle;
+    float DirectionLength;
+public:
+
+    Player() {
+
+        //Position relative to Tiles
+        PlayerPosX = 6;
+        PlayerPosY = 5;
+
+
+        PlayerSize = 10;
+
+        DirectionAngle = 0;   // Important for Mouse Integration
+        DirectionLength = 25;
+
+    }
+
+    void changePlayerPosX(float newPlayerPosX) {
+        PlayerPosX = newPlayerPosX;
+    }
+
+
+    void changePlayerPosY(float newPlayerPosY) {
+        PlayerPosY = newPlayerPosY;
+    }
+
+    void increasePlayerAngle(float AngleIncreasement) {
+
+        DirectionAngle += ((AngleIncreasement *2 * M_PI) / 360);
+
+    }
+
+    void movePlayerRelativeToRotationAngle(char Direction,char Slider, float Distance) {
+        if(Slider == 'X') {
+            if(Direction == 'W') {
+
+                PlayerPosX = PlayerPosX + Distance * std::sin(DirectionAngle);
+            }
+
+            if(Direction == 'A') {
+
+                PlayerPosX = PlayerPosX + Distance * std::sin(DirectionAngle + M_PI / 2);
+            }
+
+            if(Direction == 'S') {
+
+                PlayerPosX = PlayerPosX + Distance * std::sin(DirectionAngle + M_PI);
+            }
+
+            if(Direction == 'D') {
+
+                PlayerPosX = PlayerPosX + Distance * std::sin(DirectionAngle + M_PI * 3 / 2);
+            }
+        }
+
+
+
+        if(Slider == 'Y') {
+            if(Direction == 'W') {
+
+                PlayerPosY = PlayerPosY + Distance * std::cos(DirectionAngle);
+            }
+
+            if(Direction == 'A') {
+
+                PlayerPosY = PlayerPosY + Distance * std::cos(DirectionAngle + M_PI / 2);
+            }
+
+            if(Direction == 'S') {
+
+                PlayerPosY = PlayerPosY + Distance * std::cos(DirectionAngle + M_PI );
+            }
+
+            if(Direction == 'D') {
+
+                PlayerPosY = PlayerPosY + Distance * std::cos(DirectionAngle + M_PI * 3 / 2 );
+            }
+        }
+
+
+
+
+    }
+
+    float getPlayerPosX() {
+        return PlayerPosX;
+    }
+
+    float getPlayerPosY() {
+        return PlayerPosY;
+    }
+
+    float getDirectionAngle() {
+        return DirectionAngle;
+    }
+
+    float getDirectionLength() {
+        return DirectionLength;
+    }
+
+    float getPlayerSize() {
+        return PlayerSize;
+    }
+
+};
+
+class Map;
+class Display3D;
+
+class GameMaster : public QWidget {
+private:
+    Map *Map2D;
+    Display3D *Game3D;
+    QTimer *timer;
+
+public:
+    std::vector<int> worldMap;
+    int mapWidth;
+    int  mapHeight;
+
+    int TileSizeX = 50;
+    int TileSizeY = 50;
+
+    Player player;
+
+    bool wPressed = false;
+    bool aPressed = false;
+    bool sPressed = false;
+    bool dPressed = false;
+    bool leftPressed = false;
+    bool rightPressed = false;
+
+    GameMaster();
+    void SuperLoop();
+
+
+    void keyPressEvent(QKeyEvent *event) override {
+
+
+
+        if(event->key() == Qt::Key_W) wPressed = true;
+        if(event->key() == Qt::Key_A) aPressed = true;
+        if(event->key() == Qt::Key_S) sPressed = true;
+        if(event->key() == Qt::Key_D) dPressed = true;
+        if(event->key() == Qt::Key_Left) leftPressed = true;
+        if(event->key() == Qt::Key_Right) rightPressed = true;
+    }
+    void keyReleaseEvent(QKeyEvent *event) override {
+
+        if(event->key() == Qt::Key_W) wPressed = false;
+        if(event->key() == Qt::Key_A) aPressed = false;
+        if(event->key() == Qt::Key_S) sPressed = false;
+        if(event->key() == Qt::Key_D) dPressed = false;
+        if(event->key() == Qt::Key_Left) leftPressed = false;
+        if(event->key() == Qt::Key_Right) rightPressed = false;
+
+
+    }
+
+    dda calculateWallHit(float RayAngel) {
+
+        dda Ray;
+
+        Ray.RayAngel = RayAngel; // (RayAngel *2 *M_PI / 360);
+
+        //Middle of the Player
+        Ray.RayStartX = player.getPlayerPosX() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
+        Ray.RayStartY = player.getPlayerPosY() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
+
+        //Direction Vector of the Player (Verhältnis)
+        float rayDirectionX = std::sin(player.getDirectionAngle()+Ray.RayAngel);
+        float rayDirectionY = std::cos(player.getDirectionAngle()+Ray.RayAngel);
+
+        //In which Tile the Player is.
+        int TileX = static_cast<int>(Ray.RayStartX);
+        int TileY = static_cast<int>(Ray.RayStartY);
+
+        // Calculation of the hypothenuses for movement of 1 in x/y direction. (Betrag) cause distance is not negative if angel is.
+        float edgeDistanceX = std::abs(1 / rayDirectionX);
+        float edgeDistanceY = std::abs(1 / rayDirectionY);
+
+        //Was to the next grid line
+        float sideDistanceX;
+        float sideDistanceY;
+
+        //indicator if the ray should move further
+        int walkX;
+        int walkY;
+
+        int wall = 0;
+
+        //Go Left if Direction of x is Negative
+        if(rayDirectionX < 0) {
+            walkX = -1;
+            //Calculate Length for 1 Tile in -X direction
+            sideDistanceX = (Ray.RayStartX - TileX) * edgeDistanceX;
+        }
+
+        else {
+            walkX = 1;
+            sideDistanceX = (TileX + 1 - Ray.RayStartX) * edgeDistanceX;
+
+        }
+
+        if (rayDirectionY < 0) {
+            walkY = -1;
+            sideDistanceY = (Ray.RayStartY - TileY) * edgeDistanceY;
+        }
+        else {
+            walkY = 1;
+            sideDistanceY =  (TileY +1 - Ray.RayStartY) *edgeDistanceY;
+        }
+
+        bool hit = false;
+        while(!hit) {
+
+            if(sideDistanceX < sideDistanceY) {
+                sideDistanceX += edgeDistanceX;
+
+                TileX += walkX;
+
+                Ray.VerticalHit = true;
+                Ray.HorizontalHit = false;
+            }
+            else {
+                sideDistanceY += edgeDistanceY;
+                TileY += walkY;
+
+                Ray.HorizontalHit = true;
+                Ray.VerticalHit = false;
+            }
+
+            if(worldMap[TileY * mapWidth + TileX]) {
+                hit = true;
+            }
+        }
+
+        if(Ray.VerticalHit) {
+
+            sideDistanceX -= edgeDistanceX;
+            Ray.Raylength = sideDistanceX;
+        }
+
+
+        if(Ray.HorizontalHit) {
+
+            sideDistanceY -= edgeDistanceY;
+            Ray.Raylength= sideDistanceY;	//describes the Eeudelican Raylength
+        }
+        hit = false;
+//Does change the sideDistanceX (length of actual Ray) into only X with the Hyp/X ratio rayDirection.
+
+        Ray.Raylength3D = Ray.Raylength * std::cos(Ray.RayAngel);
+        Ray.RayEndX = Ray.RayStartX  + rayDirectionX * Ray.Raylength;
+        Ray.RayEndY = Ray.RayStartY  + rayDirectionY * Ray.Raylength;
+        return Ray;
+
+
+
+
+
+    }
+
+
+
+
+
+};
+
+
+class Map : public QWidget {
+
+private:
+    GameMaster *game;
+
+public:
+
+    Map(GameMaster *parent) : QWidget(parent) {
+        game = parent;
+
+        setMinimumWidth(300); //optional
+
+    }
+
+protected:
+
+
+    void paintEvent(QPaintEvent *event) override {
+        QPainter painter(this);
+
+        //drawing the map
+        for (int y = 0; y < game->mapHeight; ++y) {
+            for(int x = 0; x < game->mapWidth; ++x) {
+                //Finding the right tile
+                int Tile = game->worldMap[y * game->mapWidth +x];
+
+                if (Tile == 1) {
+                    painter.setBrush(Qt::red);
+                }
+                
+		else if (Tile == 2) {
+
+                    painter.setBrush(Qt::yellow);
+				}
+		else if (Tile == 3) {
+		
+                    painter.setBrush(Qt::green);
+			}
+		else if (Tile == 4) {
+
+                    painter.setBrush(QColor(128, 0, 128));		//Purple
+			}
+		else if (Tile == 0) {
+                    painter.setBrush(QColor(102, 51, 0));		//bROWN
+                }
+
+                painter.drawRect(x * game->TileSizeX, y * game->TileSizeY, game->TileSizeX, game->TileSizeY); // (xpos, ypos,
+            }				// xlength, ylength)
+        }
+
+        //drawing the Player
+        painter.setBrush(Qt::yellow);
+        painter.drawRect
+        (game->player.getPlayerPosX() * game->TileSizeX, game->player.getPlayerPosY() * game->TileSizeY,
+         game->player.getPlayerSize(), game->player.getPlayerSize());
+
+
+
+        float PlayerCenterPosX = game->player.getPlayerPosX() * game->TileSizeX + game->player.getPlayerSize()/2;
+        float PlayerCenterPosY = game->player.getPlayerPosY() * game->TileSizeY + game->player.getPlayerSize()/2;
+
+        //Attention! The PlayerCernterPos needs to be added to the Direction Pointer !!!
+        //Other wise the Direction Pointer Points from
+
+        float DirectionEndX = game->player.getDirectionLength() *  std::sin(game->player.getDirectionAngle()) + PlayerCenterPosX ;
+        float DirectionEndY = game->player.getDirectionLength() *  std::cos(game->player.getDirectionAngle()) + PlayerCenterPosY ;
+        //std::sqrt(player.getDirectionLength() * player.getDirectionLength()
+        //	- DirectionEndY * DirectionEndY);
+
+
+
+        //drawing Direction Vektor
+        painter.drawLine(PlayerCenterPosX,
+                         PlayerCenterPosY,
+                         DirectionEndX,
+                         DirectionEndY);
+
+
+        // Does calculate several data sets of the Wallcolision for later drawing the wall
+        for(float RayAngel = -30; RayAngel <= 30; RayAngel= RayAngel + 0.1) {
+            dda Ray = game->calculateWallHit(RayAngel *2 *M_PI / 360);
+
+            //imlementing Tilesize into function!!!
+            painter.drawLine(Ray.RayStartX *game->TileSizeX,
+                             Ray.RayStartY*game->TileSizeY,
+                             Ray.RayEndX*game->TileSizeX,
+                             Ray.RayEndY*game->TileSizeY );
+        }
+
+
+
+
+    }
+};
+
+
+
+class Display3D : public QWidget {
+
+private:
+    GameMaster *game;
+
+public:
+
+    Display3D(GameMaster *parent) : QWidget(parent) {
+        game = parent;
+
+        setMinimumWidth(300); //optional
+
+    }
+
+protected:
+
+
+// Verstehen!!!
+
+
+    void paintEvent(QPaintEvent *event) override {
+        QPainter painter(this);
+
+
+        float FieldOfView = 60 * 2 * M_PI / 360; //60deg in Rad for fov
+
+        float DisplayDistance = (static_cast<float>(width())/2) / std::tan(FieldOfView / 2); //Distance to the Display (Nachschlagen)
+
+        float AngelPerLoop = FieldOfView / static_cast<float>(width());
+
+        float StartAngel = FieldOfView/2 ; // - durch + ersetzt
+
+
+	// drawing seeling
+	painter.fillRect(0, 0, width(), height() / 2, QColor(224, 224, 224));
+	
+	//drawing floor
+	painter.fillRect(0, height() / 2, width(), height(), QColor(102, 51, 0));
+
+	for(int x = 0; x < width() ; ++x) {
+
+
+
+            //float ActualAngel = StartAngel - x * AngelPerLoop; // + durch - ersetzt
+            float RelativeAngle = StartAngel -x * AngelPerLoop;
+
+            dda CurrentRay = game->calculateWallHit(RelativeAngle);
+
+            float DisplayAngel = RelativeAngle - game->player.getDirectionAngle();
+
+            int WallHeight = static_cast<int>((/*game->TileSizeX*/ 1 / CurrentRay.Raylength3D) * DisplayDistance);
+
+
+            // Draws The Wall alway at the middle of the screen
+            int WallStart = (height()/2) -(WallHeight / 2);
+            int WallEnd = WallStart + WallHeight;
+
+	//Low level lighting for an more 3d like experience.
+
+		if(CurrentRay.HorizontalHit){
+	    	painter.setPen(QColor(255, 0, 0));
+		}
+
+		else {
+		
+		painter.setPen(QColor(200, 0, 0));
+		}    
+		painter.drawLine(x, WallStart, x, WallEnd);
+
+
+
+
+
+        }
+    }
+
+
+
+
+
+};
+
+GameMaster::GameMaster() {
+
+    resize(1200, 600);
+    setWindowTitle("MainWindow");
+
+    mapWidth = 10;
+    mapHeight = 10;
+    worldMap = {
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,
+        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 0, 0, 0, 0, 0, 3, 3, 0, 1,
+        1, 0, 4, 0, 0, 0, 3, 3, 0, 1,
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+    };
+
+    Map2D = new Map(this);
+    Game3D = new Display3D(this);
+
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->addWidget(Map2D);
+    layout->addWidget(Game3D);
+
+
+    QTimer *timer = new QTimer(this);			//declareing a timer
+    timer->start(16);					//16ms for 60Hz
+    connect(timer, &QTimer::timeout, this, &GameMaster::SuperLoop); 	//when timer run down, call SuperLoop
+
+}
+
+void GameMaster::SuperLoop() {
+    float travelDistance = 0.05f;
+    float NextPlayerX;
+    float NextPlayerY;
+    float hitBoxLength = (player.getPlayerSize() / TileSizeX) -0.001 ;
+
+
+    if(wPressed) {
+        NextPlayerY = player.getPlayerPosY() + travelDistance * std::cos(player.getDirectionAngle());
+        NextPlayerX = player.getPlayerPosX() + travelDistance * std::sin(player.getDirectionAngle());
+
+
+        //check x (using old y)
+        if(!worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>(NextPlayerX)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY())*mapWidth + static_cast<int>(NextPlayerX + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)*mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength) * mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>( NextPlayerX + hitBoxLength)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)* mapWidth +static_cast<int>(NextPlayerX + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'W', 'X', travelDistance);
+
+        }
+
+        //check y (using old x)
+        if(!worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX())]
+                && !worldMap[static_cast<int>(NextPlayerY)*mapWidth + static_cast<int>(player.getPlayerPosX() + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)*mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength) * mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX()  + hitBoxLength)]
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)* mapWidth +static_cast<int>(player.getPlayerPosX() + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'W', 'Y', travelDistance);
+
+        }
+
+
+    }
+
+
+    if(aPressed) {
+        NextPlayerY = player.getPlayerPosY() + travelDistance * std::cos(player.getDirectionAngle() + M_PI/2 );
+        NextPlayerX = player.getPlayerPosX() + travelDistance * std::sin(player.getDirectionAngle()+ M_PI/2 );
+
+
+        //check x (using old y)
+        if(!worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>(NextPlayerX)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY())*mapWidth + static_cast<int>(NextPlayerX + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)*mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength) * mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>( NextPlayerX + hitBoxLength)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)* mapWidth +static_cast<int>(NextPlayerX + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'A', 'X', travelDistance);
+
+        }
+
+        //check y (using old x)
+        if(!worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX())]
+                && !worldMap[static_cast<int>(NextPlayerY)*mapWidth + static_cast<int>(player.getPlayerPosX() + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)*mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength) * mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX()  + hitBoxLength)]
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)* mapWidth +static_cast<int>(player.getPlayerPosX() + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'A', 'Y', travelDistance);
+
+        }
+
+
+    }
+
+    if(sPressed) {
+        NextPlayerY = player.getPlayerPosY() + travelDistance * std::cos(player.getDirectionAngle() + M_PI);
+        NextPlayerX = player.getPlayerPosX() + travelDistance * std::sin(player.getDirectionAngle() + M_PI);
+
+
+        //check x (using old y)
+        if(!worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>(NextPlayerX)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY())*mapWidth + static_cast<int>(NextPlayerX + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)*mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength) * mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>( NextPlayerX + hitBoxLength)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)* mapWidth +static_cast<int>(NextPlayerX + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'S', 'X', travelDistance);
+
+        }
+
+        //check y (using old x)
+        if(!worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX())]
+                && !worldMap[static_cast<int>(NextPlayerY)*mapWidth + static_cast<int>(player.getPlayerPosX() + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)*mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength) * mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX()  + hitBoxLength)]
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)* mapWidth +static_cast<int>(player.getPlayerPosX() + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'S', 'Y', travelDistance);
+
+        }
+
+
+    }
+
+
+    if(dPressed) {
+        NextPlayerY = player.getPlayerPosY() + travelDistance * std::cos(player.getDirectionAngle()+ M_PI * 3/2);
+        NextPlayerX = player.getPlayerPosX() + travelDistance * std::sin(player.getDirectionAngle()+ M_PI * 3/2);
+
+
+        //check x (using old y)
+        if(!worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>(NextPlayerX)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY())*mapWidth + static_cast<int>(NextPlayerX + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)*mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength) * mapWidth + static_cast<int>(NextPlayerX)]
+
+                && !worldMap[static_cast<int>(player.getPlayerPosY()) * mapWidth +static_cast<int>( NextPlayerX + hitBoxLength)]
+                && !worldMap[static_cast<int>(player.getPlayerPosY() + hitBoxLength)* mapWidth +static_cast<int>(NextPlayerX + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'D', 'X', travelDistance);
+
+        }
+
+        //check y (using old x)
+        if(!worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX())]
+                && !worldMap[static_cast<int>(NextPlayerY)*mapWidth + static_cast<int>(player.getPlayerPosX() + hitBoxLength)]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)*mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength) * mapWidth + static_cast<int>(player.getPlayerPosX())]
+
+                && !worldMap[static_cast<int>(NextPlayerY) * mapWidth +static_cast<int>(player.getPlayerPosX()  + hitBoxLength)]
+                && !worldMap[static_cast<int>(NextPlayerY + hitBoxLength)* mapWidth +static_cast<int>(player.getPlayerPosX() + hitBoxLength)]) {
+
+            player.movePlayerRelativeToRotationAngle( 'D', 'Y', travelDistance);
+
+        }
+
+
+    }
+
+
+
+
+    if(leftPressed) {
+
+        player.increasePlayerAngle(2);
+    }
+
+    if(rightPressed) {
+
+        player.increasePlayerAngle(-2);
+
+    }
+
+    Map2D->update();
+    Game3D->update();
+
+}
+
+
+
+
+
+
+
+int main(int argc, char *argv[]) {
+    QApplication app(argc, argv);
+
+    GameMaster window;
+    window.show();
+
+    return app.exec();
+}

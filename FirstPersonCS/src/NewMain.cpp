@@ -299,7 +299,7 @@ class Map : public QWidget {
 private:
     GameMaster *game;
 
-public:
+    public:
 
     Map(GameMaster *parent) : QWidget(parent) {
         game = parent;
@@ -323,8 +323,21 @@ protected:
                 if (Tile == 1) {
                     painter.setBrush(Qt::red);
                 }
-                else {
+                
+		else if (Tile == 2) {
+
+                    painter.setBrush(Qt::blue);
+				}
+		else if (Tile == 3) {
+		
                     painter.setBrush(Qt::green);
+			}
+		else if (Tile == 4) {
+
+                    painter.setBrush(QColor(128, 0, 128));		//Purple
+			}
+		else if (Tile == 0) {
+                    painter.setBrush(QColor(102, 51, 0));		//bROWN
                 }
 
                 painter.drawRect(x * game->TileSizeX, y * game->TileSizeY, game->TileSizeX, game->TileSizeY); // (xpos, ypos,
@@ -410,7 +423,15 @@ protected:
 
         float StartAngel = FieldOfView/2 ; // - durch + ersetzt
 
-        for(int x = 0; x < width() ; ++x) {
+
+	// drawing seeling
+	painter.fillRect(0, 0, width(), height() / 2, QColor(224, 224, 224));
+	
+	//drawing floor
+	painter.fillRect(0, height() / 2, width(), height(), QColor(102, 51, 0));
+
+	for(int x = 0; x < width() ; ++x) {
+
 
 
             //float ActualAngel = StartAngel - x * AngelPerLoop; // + durch - ersetzt
@@ -427,9 +448,17 @@ protected:
             int WallStart = (height()/2) -(WallHeight / 2);
             int WallEnd = WallStart + WallHeight;
 
-            painter.setPen(Qt::red);
-
-            painter.drawLine(x, WallStart, x, WallEnd);
+	//Low level lighting for an more 3d like experience.
+										//0 No Wall
+		if(CurrentRay.HorizontalHit){                                   //1 Red Wall
+	    	painter.setPen(QColor(255, 0, 0));                              //2 Blue Wall
+		}                                                               //3 Green Wall
+                                                                                //4 Purple Wall
+		else {
+		
+		painter.setPen(QColor(200, 0, 0));
+		}    
+		painter.drawLine(x, WallStart, x, WallEnd);
 
 
 
@@ -452,14 +481,14 @@ GameMaster::GameMaster() {
     mapWidth = 10;
     mapHeight = 10;
     worldMap = {
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,				//0 No Wall
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,				//1 Red Wall
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,				//2 Blue Wall
+        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,				//3 Green Wall
+        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,				//4 Purple Wall
         1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 1, 1, 0, 0, 0, 0, 1,
-        1, 0, 0, 1, 1, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 1, 1, 0, 1,
-        1, 0, 1, 0, 0, 0, 1, 1, 0, 1,
+        1, 0, 0, 0, 0, 0, 3, 3, 0, 1,
+        1, 0, 4, 0, 0, 0, 3, 3, 0, 1,
         1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1
     };

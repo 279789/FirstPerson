@@ -23,6 +23,8 @@ public:
     bool leftPressed = false;
     bool rightPressed = false;
 
+	char CheckHitBox(float NextPlayerX, float NextPlayerY, float HitboxLength);
+	void MovePlayer(char Direction, char DirectionFree, float travelDistance);
     GameMaster();
     void SuperLoop();
 

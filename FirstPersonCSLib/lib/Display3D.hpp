@@ -9,7 +9,7 @@ private:
 
 public:
 
-explicit Display3D(QWidget *parent = nullptr);
+    explicit Display3D(QWidget *parent = nullptr);
 
 protected:
 

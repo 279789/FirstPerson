@@ -100,8 +100,8 @@ dda GameMaster::calculateWallHit(float RayAngel) {
 
     dda Ray;
 
-    Ray.RayAngel = RayAngel; 
-    
+    Ray.RayAngel = RayAngel;
+
     //Middle of the Player
     Ray.RayStartX = player.getPlayerPosX() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
     Ray.RayStartY = player.getPlayerPosY() + player.getPlayerSize()/(2*static_cast<float>(TileSizeX)) ;
@@ -110,7 +110,7 @@ dda GameMaster::calculateWallHit(float RayAngel) {
     float rayDirectionX = std::sin(player.getDirectionAngle() + Ray.RayAngel);
     float rayDirectionY = std::cos(player.getDirectionAngle() + Ray.RayAngel);
 
-    //In which Tile the Ray is.
+    //In which Tile the Ray is. Also Points where the Gridlines are !!!
     int TileX = static_cast<int>(Ray.RayStartX);
     int TileY = static_cast<int>(Ray.RayStartY);
 
@@ -118,46 +118,50 @@ dda GameMaster::calculateWallHit(float RayAngel) {
     float XMovementHypothenuses = std::abs(1 / rayDirectionX);
     float YMovementHypothenuses = std::abs(1 / rayDirectionY);
 
-    //Length of the current Ray
+    //Length of the current Ray.
     float CurrentRayLengthXMovement;
     float CurrentRayLengthYMovement;
 
-    //indicator if the ray should move further
+    //Direction of the Ray.
     int RayXMovement;
     int RayYMovement;
 
     //Go Left if the Direction of the Ray is Negative
     if(rayDirectionX < 0) {
         RayXMovement = -1;
-        
-	//Calculate Ray Length from Start Position to first GridLine in -X direction
+
+        //Calculate Ray Length from Start Position to first GridLine in -X direction
         CurrentRayLengthXMovement = (Ray.RayStartX - TileX) * XMovementHypothenuses;
     }
 
     else {
         RayXMovement = 1;
-       
-	//Calculate Ray Length from Start Position to first GridLine in +X direction
-       	CurrentRayLengthXMovement = (TileX + 1 - Ray.RayStartX) * XMovementHypothenuses;
+
+        //Calculate Ray Length from Start Position to first GridLine in +X direction
+        CurrentRayLengthXMovement = (TileX + 1 - Ray.RayStartX) * XMovementHypothenuses;
 
     }
 
     if (rayDirectionY < 0) {
         RayYMovement = -1;
-        
-	//Calculate Ray Length from Start Position to first GridLine in -Y direction (up)
-	CurrentRayLengthYMovement = (Ray.RayStartY - TileY) * YMovementHypothenuses;
+
+        //Calculate Ray Length from Start Position to first GridLine in -Y direction (up)
+        CurrentRayLengthYMovement = (Ray.RayStartY - TileY) * YMovementHypothenuses;
     }
     else {
         RayYMovement = 1;
-       
-	//Calculate Ray Length from Start Position to first GridLine in Y direction (down)
-	CurrentRayLengthYMovement =  (TileY +1 - Ray.RayStartY) * YMovementHypothenuses;
+
+        //Calculate Ray Length from Start Position to first GridLine in Y direction (down)
+        CurrentRayLengthYMovement =  (TileY +1 - Ray.RayStartY) * YMovementHypothenuses;
     }
 
     bool hit = false;
     while(!hit) {
-
+        //This is our main loop for this algorithm. First we check which CurrentRayLengthXMovement is shorter.
+        //Than we are adding our Hypothenuses to the CurentRaylLengthmovement and Move also on to next Gridline (Tile).
+        //From the Raylength we could find out if we hit VerticalGridline or HorizontalGridline.
+        //Last we check if we hit a Wall, if we did, the loop ends.
+        //Know we have information if we hit a Horizontal or Vertical Wall, and how far it is from the Player.
         if(CurrentRayLengthXMovement < CurrentRayLengthYMovement) {
             CurrentRayLengthXMovement += XMovementHypothenuses;
 
@@ -178,7 +182,11 @@ dda GameMaster::calculateWallHit(float RayAngel) {
             hit = true;
         }
     }
+    hit = false;
 
+
+    //We do first adjust the CurrentRayLength and check after that if we did a hit.
+    //So we have to subtract one Hypothenuses.
     if(Ray.VerticalHit) {
 
         CurrentRayLengthXMovement -= XMovementHypothenuses;
@@ -191,10 +199,12 @@ dda GameMaster::calculateWallHit(float RayAngel) {
         CurrentRayLengthYMovement -= YMovementHypothenuses;
         Ray.Raylength = CurrentRayLengthYMovement;	//describes the Eeudelican Raylength
     }
-    hit = false;
-//Does change the sideDistanceX (length of actual Ray) into only X with the Hyp/X ratio rayDirection.
 
+
+    //Later used for drawing Walls.
     Ray.Raylength3D = Ray.Raylength * std::cos(Ray.RayAngel);
+
+    //Used for drawwing view Field.
     Ray.RayEndX = Ray.RayStartX  + rayDirectionX * Ray.Raylength;
     Ray.RayEndY = Ray.RayStartY  + rayDirectionY * Ray.Raylength;
     return Ray;
@@ -205,16 +215,16 @@ dda GameMaster::calculateWallHit(float RayAngel) {
 GameMaster::GameMaster() {
 
     resize(1200, 600);
-    setWindowTitle("MainWindow");
+    setWindowTitle("Raycaster");
 
     mapWidth = 10;
     mapHeight = 10;
     worldMap = {
-        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
-        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,
-        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1,				//0 No Wall
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,				//1 Red Wall
+        1, 0, 0, 0, 0, 0, 0, 0, 0, 1,				//2 Yellow Wall
+        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,				//3 Green Wall
+        1, 0, 0, 2, 2, 0, 0, 0, 0, 1,				//4 Purple Wall
         1, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 0, 0, 0, 0, 0, 3, 3, 0, 1,
         1, 0, 4, 0, 0, 0, 3, 3, 0, 1,
@@ -225,13 +235,14 @@ GameMaster::GameMaster() {
     Map2D = new Map(this);
     Game3D = new Display3D(this);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->addWidget(Map2D);
-    layout->addWidget(Game3D);
+    //QHBoxLayout does Arange our Children on a Horizontalline besides each other.
+    QHBoxLayout *HorizontalLayout = new QHBoxLayout(this);
+    HorizontalLayout->addWidget(Map2D);
+    HorizontalLayout->addWidget(Game3D);
 
 
-    QTimer *timer = new QTimer(this);			//declareing a timer
-    timer->start(16);					//16ms for 60Hz
+    QTimer *timer = new QTimer(this);					//declareing a timer
+    timer->start(16);							//16ms for 60Hz
     connect(timer, &QTimer::timeout, this, &GameMaster::SuperLoop); 	//when timer run down, call SuperLoop
 
 }

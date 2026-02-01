@@ -21,5 +21,5 @@ public:
     float getPlayerPosY();
     float getDirectionAngle();
     float getDirectionLength();
-    float getPlayerSize();	 
+    float getPlayerSize();
 };

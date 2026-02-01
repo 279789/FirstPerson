@@ -23,13 +23,13 @@ public:
     bool leftPressed = false;
     bool rightPressed = false;
 
-	char CheckHitBox(float NextPlayerX, float NextPlayerY, float HitboxLength);
-	void MovePlayer(char Direction, char DirectionFree, float travelDistance);
+    char CheckHitBox(float NextPlayerX, float NextPlayerY, float HitboxLength);
+    void MovePlayer(char Direction, char DirectionFree, float travelDistance);
     GameMaster();
     void SuperLoop();
 
 
-    void keyPressEvent(QKeyEvent *event) override;    
-	 void keyReleaseEvent(QKeyEvent *event) override; 
-     	 dda calculateWallHit(float RayAngel);
+    void keyPressEvent(QKeyEvent *event) override;
+    void keyReleaseEvent(QKeyEvent *event) override;
+    dda calculateWallHit(float RayAngel);
 };

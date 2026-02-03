@@ -1,0 +1,5 @@
+/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/deploy/./CopperSpiceTest
+/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/deploy/./libCsCore2.0.so
+/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/deploy/./libCsGui2.0.so
+/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/deploy/./platforms/CsGuiXcb2.0.so
+/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCS/deploy/./libCsXcbSupport2.0.so

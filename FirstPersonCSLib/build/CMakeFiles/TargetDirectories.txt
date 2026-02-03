@@ -1,8 +1,0 @@
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/RaycasterLib.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/CopperSpiceTest.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/edit_cache.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/rebuild_cache.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/list_install_components.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/install.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/install/local.dir
-/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/build/CMakeFiles/install/strip.dir

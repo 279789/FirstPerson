@@ -1,1 +1,0 @@
-/usr/bin/c++ -Wl,--dependency-file=CMakeFiles/CopperSpiceTest.dir/link.d CMakeFiles/CopperSpiceTest.dir/src/main.cpp.o -o CopperSpiceTest  -Wl,-rpath,/home/phil/cpplibs/cs2.0_libs/lib: libRaycasterLib.a /home/phil/cpplibs/cs2.0_libs/lib/libCsGui2.0.so /home/phil/cpplibs/cs2.0_libs/lib/libCsCore2.0.so /usr/lib/libz.so -ldl /usr/lib/libOpenGL.so /usr/lib/libGLX.so

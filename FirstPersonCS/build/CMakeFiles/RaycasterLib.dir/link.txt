@@ -1,2 +1,0 @@
-/usr/bin/ar qc libRaycasterLib.a CMakeFiles/RaycasterLib.dir/lib/Display3D.cpp.o CMakeFiles/RaycasterLib.dir/lib/GameMaster.cpp.o CMakeFiles/RaycasterLib.dir/lib/Map.cpp.o CMakeFiles/RaycasterLib.dir/lib/Player.cpp.o
-/usr/bin/ranlib libRaycasterLib.a

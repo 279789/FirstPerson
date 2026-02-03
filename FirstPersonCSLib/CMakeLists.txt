@@ -60,7 +60,7 @@ include_directories(
     "/home/phil/cpplibs/cs2.0_libs/include/QtCore"
     "/home/phil/cpplibs/cs2.0_libs/include/QtGui"
     "/home/phil/cpplibs/cs2.0_libs/include/QtNetwork"
-    "/home/phil/Programieren/Objektorientierung/repos/FirsPerson/FirstPersonCSLib/lib"
+    "lib"
 
 )
  

@@ -17,7 +17,16 @@ Due to time constraints, this Version only renders walls, floor and ceiling in t
 How ever, I plan to implement Textures, Sprites and Enemies in the Future.
 [Learn more about Raycasting](https://lodev.org/cgtutor/raycasting.html)
 
-The Current version of this Raycaster is very "demo only", so feel free to add or improve this Code.
+The Current version of this Raycaster is very "demo only", so feel free to add or improve this Code. (But not at this repo)
+
+## Disclaimer:
+
+This is definitely not an good example for an good C++ programming Style,
+some stuff is good implemented, some is definitely not. However,
+I want to leave the Code as it is, so that people who take Lectures from
+Stephan Bökelmann have an good example, what an OOP Project could be.
+In the future, I may consider to do a fork, so if you want to improve something,
+or add something. Do it there. (Excluding spelling or wrong data in the Readme)
 
 ## Compiling
 
